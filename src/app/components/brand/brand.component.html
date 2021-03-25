@@ -1,14 +1,15 @@
 <div *ngIf="isLoaded == false" class="spinner-border text-danger" role="status">
     <span class="visually-hidden">Loading...</span>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Brand Name</th>
-        </tr>
-    </thead>
-
-    <tr *ngFor= "let brand of brands">
-        <td>{{brand.brandName}}</td>
-    </tr>
-</table>
+<h3>Brands</h3>
+<div class="mb-3">
+    <label for="searchTextForBrand" class="form-label">Brand Ara</label>
+    <input type="text" class="form-control"  [(ngModel)]="searchTextForBrand" id="searchTextForBrand" placeholder="Brand ismi">
+</div>
+<div *ngIf="searchTextForBrand" class="alert alert-success">
+    {{searchTextForBrand}} aradınız.
+</div>
+<ul class="list-group">
+    <li (click)="cleanActiveBrand()" routerLink="" [class]="activateAllCars()">All Cars</li>
+    <li (click)="getCurrentBrand(brand)" *ngFor="let brand of brands | filterPipeForBrand:searchTextForBrand" routerLink="cars/brands/{{brand.brandId}}" [class]="setCurrentBrandToActive(brand)">{{brand.brandName}}</li>
+</ul>

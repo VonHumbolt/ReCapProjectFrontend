@@ -1,0 +1,16 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Brand ID</th>
+            <th>Brand Name</th>
+            <th></th>
+            
+        </tr>
+    </thead>
+
+    <tr *ngFor="let brand of brands" >
+        <td>{{brand.brandId}}</td>
+        <td>{{brand.brandName}}</td>
+        <td><span class="badge rounded-pill bg-warning text-dark" routerLink="/brands/update/{{brand.brandId}}">Güncelle</span></td>
+    </tr>
+</table>

@@ -1,0 +1,34 @@
+<div class="content mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="title">Araba Ekle</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="carAddForm">
+                    <div class="mb-3">
+                        <label for="brandName" class="form-label">Brand Name</label>
+                        <input type="text" class="form-control" formControlName="brandName" id="brandName" placeholder="Brand Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="colorName" class="form-label">Color Name</label>
+                        <input type="text" class="form-control" id="colorName" formControlName="colorName" placeholder="Color Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dailyPrice" class="form-label">Daily Price</label>
+                        <input type="number" class="form-control" id="dailyPrice" formControlName="dailyPrice" placeholder="Daily Price">
+                    </div>
+                    <div class="mb-3">
+                        <label for="carName" class="form-label">Car Name</label>
+                        <input type="text" class="form-control" id="carName" formControlName="carName" placeholder="Car Name">
+                      </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-fill btn-primary" (click)="add()"> Ekle </button>
+            </div>
+            
+        </div>
+    </div>
+
+</div>

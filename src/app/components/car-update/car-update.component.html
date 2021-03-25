@@ -1,0 +1,40 @@
+<div class="content mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="title">Güncelle</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="carUpdatedForm">
+                    <div class="mb-3">
+                        <label for="brandId" class="form-label">Brand Id</label>
+                        <input type="number" class="form-control" id="brandId" formControlName="brandId" placeholder="Brand Id">
+                      </div>
+                      <div class="mb-3">
+                        <label for="colorId" class="form-label">Color Id</label>
+                        <input type="number" class="form-control" id="colorId" formControlName="colorId" placeholder="Color Id">
+                      </div>
+                      <div class="mb-3">
+                        <label for="modelYear" class="form-label">Model Year</label>
+                        <input type="number" class="form-control" id="modelYear" formControlName="modelYear" placeholder="Model Year">
+                      </div>
+                      <div class="mb-3">
+                        <label for="dailyPrice" class="form-label">Daily Price</label>
+                        <input type="number" class="form-control" id="dailyPrice" formControlName="dailyPrice" placeholder="Daily Price">
+                      </div>
+                      <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" formControlName="description" placeholder="Description">
+                      </div>
+                      <div class="mb-3">
+                        <label for="carName" class="form-label">Car Name</label>
+                        <input type="text" class="form-control" id="carName" formControlName="carName" placeholder="Car Name">
+                      </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-fill btn-primary" (click)="update()">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>

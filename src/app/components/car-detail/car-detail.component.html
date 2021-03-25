@@ -1,0 +1,31 @@
+<h2>{{carDetail[0].imagePath}}</h2>
+{{rooterLink}}
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{{path}}{{detail.imagePath}}"  class="d-block w-100" alt="..." *ngFor="let detail of carDetail">
+      </div>
+    </div>
+</div>
+
+<div class="container">
+  <fieldset>
+    <legend>Kirala</legend>
+      <div class="mb-3">
+        <label for="rentDate" class="form-label">Rent Date</label>
+        <input type="date" class="form-control" id="rentDate" placeholder="Rent Date" [(ngModel)]="rentDate">
+        <label for="returnDate" class="form-label">Return Date</label>
+        <input type="date" class="form-control" id="returnDate" placeholder="Return Date" [(ngModel)]="returnDate">
+      </div>
+  </fieldset>
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-1">
+        <button type="button" class="btn btn-primary" (click)="getRentalByCarId(carDetail[0].carId)">Kirala</button>
+      </div>
+      <div class="col-md-1">
+        <button type="button" class="btn btn-warning" routerLink="/cars/{{carDetail[0].carId}}/update">Güncelle</button>
+      </div>
+    </div>
+  </div>
+</div>

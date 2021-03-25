@@ -1,0 +1,16 @@
+<div class="mb-3">
+    <fieldset>
+        <legend>Ödeme İşlemleri</legend>
+        
+        <label for="name" class="form-label">İsim:</label>
+        <input type="text" class="form-control" [(ngModel)]="customerName" id="name" placeholder="isim">
+        
+        <label for="lastName" class="form-label">Soyisim:</label>
+        <input type="text" class="form-control" id="lastName" [(ngModel)]="customerLastName" placeholder="Soyisim">
+
+        <label for="cardNumber" class="form-label">Kredi Kartı Numarası:</label>
+        <input type="number" class="form-control" id="cardNumber" [(ngModel)]="cardNumber" placeholder="Kredi Kartı Numarası">
+    </fieldset>
+    <button type="button" class="btn btn-primary mt-3" (click)="sendRentalInfos()">Ödeme Yap</button>
+</div>
+  

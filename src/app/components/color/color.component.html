@@ -1,15 +1,14 @@
 <div *ngIf = "isLoaded ==false" class="spinner-border text-danger" role="status">
     <span class="visually-hidden">Loading...</span>
 </div>
-<table class="table">
-
-    <thead>
-        <tr>
-            <th>Color Name</th>
-        </tr>
-    </thead>
-
-    <tr *ngFor = "let color of colors">
-        <td>{{color.colorName}}</td>
-    </tr>
-</table>
+<h3>Colors</h3>
+<div class="mb-3">
+    <label for="searchTextForColor" class="form-label">Color Ara</label>
+    <input type="text" class="form-control"  [(ngModel)]="searchTextForColor" id="searchTextForColor" placeholder="Color ismi">
+</div>
+<div *ngIf="searchTextForColor" class="alert alert-success">
+    {{searchTextForColor}} aradınız.
+</div>
+<ul class="list-group">
+    <li (click)="getCurrentColor(color)" routerLink="cars/colors/{{color.colorId}}" *ngFor="let color of colors | filterPipeForColor:searchTextForColor" [class]="setCurrentColorToActive(color)">{{color.colorName}}</li>
+</ul>

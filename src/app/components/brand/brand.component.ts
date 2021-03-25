@@ -10,8 +10,11 @@ import { BrandService } from 'src/app/services/brand.service';
 export class BrandComponent implements OnInit {
 
   brands: Brand[] = []
+  currentBrand : Brand;
+  emptyBrandForCleaning : Brand;
   isLoaded = false;
-
+  searchTextForBrand = "";
+  
   constructor(private brandService : BrandService) { }
 
   ngOnInit(): void {
@@ -23,6 +26,30 @@ export class BrandComponent implements OnInit {
       this.brands = response.data
       this.isLoaded = true
     })
+  }
+
+  getCurrentBrand(brand: Brand) {
+    this.currentBrand = brand
+  }
+
+  setCurrentBrandToActive(brand: Brand) {
+    if(this.currentBrand == brand){
+      return "list-group-item active"
+    }else {
+      return "list-group-item"
+    }
+  }
+
+  activateAllCars() {
+    if(!this.currentBrand){
+      return "list-group-item active"
+    }else{
+      return "list-group-item"
+    }
+  }
+
+  cleanActiveBrand(){
+    this.currentBrand = this.emptyBrandForCleaning
   }
 
 }

@@ -1,4 +1,4 @@
-export interface Rental{
+export class Rental{
     rentalId : number
     brandName : string
     customerName : string

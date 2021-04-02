@@ -2,45 +2,51 @@
     <span class="visually-hidden">Loading...</span>
 </div>
 
-<div class="mb-3">
-    <label for="searchText" class="form-label">Araba Ara</label>
-    <input type="text" class="form-control"  [(ngModel)]="searchText" id="searchText" placeholder="Araba ismi">
-</div>
 
-<div *ngIf="searchText" class="alert alert-success">
-    {{searchText}} aradınız.
-</div>
-<div class="row">
-    <div class="col-md-6">
-    <label for="brandsList">Brands:</label>
-        <select name="brandsList" class="form-select" id="brandsList" [(ngModel)]="selectedBrand">
-            <option *ngFor="let brand of brands" value="{{brand.brandId}}">{{brand.brandName}}</option>
-        </select>
-        <button type="button" routerLink="/cars/brands/{{selectedBrand}}" class="btn btn-secondary">Filtrele</button>
+<div class="row mt-3">
+    <div class="col-md-7">
+        <div class="mb-3">
+            <label for="searchText" class="form-label">Araba Ara</label>
+            <input type="text" class="form-control"  [(ngModel)]="searchText" id="searchText" placeholder="Araba ismi">
+        </div>
+        
+        <div *ngIf="searchText" class="alert alert-success">
+            {{searchText}} aradınız.
+        </div>
     </div>
-    <div class="col-md-6">
-    <label for="brandsList">Colors:</label>
-        <select name="colorsList" class="form-select" id="colorsList" [(ngModel)]="selectedColor">
-            <option *ngFor="let color of colors" value="{{color.colorId}}">{{color.colorName}}</option>
-        </select>
-        <button type="button" routerLink="/cars/colors/{{selectedColor}}" class="btn btn-secondary">Filtrele</button>
+    <div class="col-md-5">
+        <div class="col-md-6">
+        <label for="brandsList">Brands:</label>
+            <select name="brandsList" class="form-select" id="brandsList" [(ngModel)]="selectedBrand">
+                <option *ngFor="let brand of brands" value="{{brand.brandId}}">{{brand.brandName}}</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+        <label for="brandsList">Colors:</label>
+            <select name="colorsList" class="form-select" id="colorsList" [(ngModel)]="selectedColor">
+                <option *ngFor="let color of colors" value="{{color.colorId}}">{{color.colorName}}</option>
+            </select>
+            <button type="button" (click)="filterCarByColorAndBrandId(selectedColor, selectedBrand)" class="btn btn-secondary mt-2">Filtrele</button>
+        </div>
     </div>
 </div>
-<table class="table">
+<table class="table mt-3">
     <thead>
         <tr>
+            <th>Car Name</th>
             <th>Brand Name</th>
+            <th>Model Year</th>
             <th>Color Name</th>
             <th>Daily Price</th>
-            <th>Car Name</th>
             
         </tr>
     </thead>
 
     <tr *ngFor="let car of cars | filterPipe:searchText" routerLink="/cars/detail/{{car.carId}}">
+        <td>{{car.carName}}</td>
         <td>{{car.brandName}}</td>
+        <td>{{car.modelYear}}</td>
         <td>{{car.colorName}}</td>
         <td>{{car.dailyPrice}}</td>
-        <td>{{car.carName}}</td>
     </tr>
 </table>

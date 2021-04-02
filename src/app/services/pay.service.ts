@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CardInfo } from '../models/cardInfo';
+import { ResponseModel } from '../models/responseModel';
+import { SingleResponseModel } from '../models/singleResponseModel';
+import { UserCardDetail } from '../models/userCardDetail';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +14,18 @@ export class PayService {
 
   constructor(private httpClient: HttpClient) { }
 
-  sendRentInfos(cardInfo: CardInfo) : Observable<CardInfo>{
-    let url = this.apiUrl + "/rentals/rentCar"
-    return this.httpClient.post<CardInfo>(url,cardInfo, {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    })
+  pay(){
+    let url = this.apiUrl + "/rentals/pay";
+    return this.httpClient.get<ResponseModel>(url)
+  }
+
+  getCardNumber(userId : number) : Observable<SingleResponseModel<UserCardDetail>> {
+    let url = this.apiUrl + "/rentals/getUserCardNumber?userId="+userId
+    return this.httpClient.get<SingleResponseModel<UserCardDetail>>(url);
+  }
+
+  addCardNumber(userCardDetail : UserCardDetail) : Observable<ResponseModel>{
+    let url = this.apiUrl + "/rentals/addCardNumber?cardNumber"
+    return this.httpClient.post<ResponseModel>(url,userCardDetail);
   }
 }

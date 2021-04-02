@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
@@ -15,7 +15,7 @@ import { NaviComponent } from './components/navi/navi.component';
 import { CarDetailComponent } from './components/car-detail/car-detail.component';
 import { FilterPipePipe } from './pipes/filter-pipe.pipe';
 import { FilterPipeForBrandPipe } from './pipes/filter-pipe-for-brand.pipe';
-import { FilterPipeForColorPipe } from './pipes/filter-pipe-for-color.pipe';
+import { FilterPipeForColorPipe } from './pipes/filter-pipe-for-color.pipe'; 
 
 import {ToastrModule} from "ngx-toastr";
 import { PayComponent } from './components/pay/pay.component';
@@ -27,6 +27,10 @@ import { BrandListComponent } from './components/brand-list/brand-list.component
 import { BrandUpdateComponent } from './components/brand-update/brand-update.component';
 import { ColorListComponent } from './components/color-list/color-list.component';
 import { ColorUpdateComponent } from './components/color-update/color-update.component';
+import { LoginComponent } from './components/login/login.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { RegisterComponent } from './components/register/register.component';
+
 
 @NgModule({
   declarations: [
@@ -50,6 +54,8 @@ import { ColorUpdateComponent } from './components/color-update/color-update.com
     BrandUpdateComponent,
     ColorListComponent,
     ColorUpdateComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,9 +66,11 @@ import { ColorUpdateComponent } from './components/color-update/color-update.com
       positionClass: "toast-bottom-right"
     }),
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ListResponseModel } from '../models/listResponseModel';
 import { Car } from '../models/car';
 import { ResponseModel } from '../models/responseModel';
+import { AddedCar } from '../models/addedCar';
 
 @Injectable({
   providedIn: 'root'
@@ -20,21 +21,31 @@ export class CarService {
   }
 
   getCarsByBrandId(brandId: number): Observable<ListResponseModel<Car>>{
-    let url = this.apiUrl + "getCarsByBrandId?brandId=" + brandId
+    let url = this.apiUrl + "getCarDetailByBrandId?brandId=" + brandId
     return this.httpClient.get<ListResponseModel<Car>>(url)
   }
 
   getCarsByColorId(colorId:number) : Observable<ListResponseModel<Car>>{
-    let url  =this.apiUrl + "getCarsByColorId?colorId=" + colorId
+    let url  =this.apiUrl + "getCarDetailByColorId?colorId=" + colorId
     return this.httpClient.get<ListResponseModel<Car>>(url)
   }
 
-  add(car: Car) : Observable<ResponseModel> {
+  getCarImagesByCarId(carId : number): Observable<ListResponseModel<Car>>{
+    let url = this.apiUrl + "getCarImagesByCarId?carId=" + carId;
+    return this.httpClient.get<ListResponseModel<Car>>(url);
+  }
+
+  filterCarsByColorAndBrandId(colorId: number, brandId: number) : Observable<ListResponseModel<Car>>{
+    let url = this.apiUrl + "filterCarDetail?colorId=" + colorId +"&"+"brandId="+brandId;
+    return this.httpClient.get<ListResponseModel<Car>>(url);
+  }
+
+  add(car: AddedCar) : Observable<ResponseModel> {
     let url = this.apiUrl + "add";
     return this.httpClient.post<ResponseModel>(url, car)
   }
 
-  update(car:any): Observable<ResponseModel> {
+  update(car:AddedCar): Observable<ResponseModel> {
     let url = this.apiUrl + "update"
     return this.httpClient.post<ResponseModel>(url, car)
   }

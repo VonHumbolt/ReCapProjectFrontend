@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Rental } from 'src/app/models/rental';
+import { AuthService } from 'src/app/services/auth.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { RentalService } from 'src/app/services/rental.service';
 
 @Component({
@@ -9,7 +11,7 @@ import { RentalService } from 'src/app/services/rental.service';
 })
 export class RentalComponent implements OnInit {
 
-  rentals: Rental[] = []
+  rentals: Rental[]
   isLoaded = false
 
   constructor(private rentalService : RentalService) { }
@@ -24,4 +26,5 @@ export class RentalComponent implements OnInit {
       this.isLoaded = true
     })
   }
+
 }

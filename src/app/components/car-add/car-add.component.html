@@ -7,12 +7,16 @@
             <div class="card-body">
                 <form [formGroup]="carAddForm">
                     <div class="mb-3">
-                        <label for="brandName" class="form-label">Brand Name</label>
-                        <input type="text" class="form-control" formControlName="brandName" id="brandName" placeholder="Brand Name">
+                        <label for="brandId" class="form-label">Brand Id</label>
+                        <input type="number" class="form-control" formControlName="brandId" id="brandId" placeholder="Brand Id">
                     </div>
                     <div class="mb-3">
-                        <label for="colorName" class="form-label">Color Name</label>
-                        <input type="text" class="form-control" id="colorName" formControlName="colorName" placeholder="Color Name">
+                        <label for="colorId" class="form-label">Color Id</label>
+                        <input type="number" class="form-control" id="colorId" formControlName="colorId" placeholder="Color Id">
+                    </div>
+                    <div class="mb-3">
+                        <label for="modelYear" class="form-label">Model Year</label>
+                        <input type="number" class="form-control" id="modelYear" formControlName="modelYear" placeholder="Model Year">
                     </div>
                     <div class="mb-3">
                         <label for="dailyPrice" class="form-label">Daily Price</label>
@@ -21,7 +25,15 @@
                     <div class="mb-3">
                         <label for="carName" class="form-label">Car Name</label>
                         <input type="text" class="form-control" id="carName" formControlName="carName" placeholder="Car Name">
-                      </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" formControlName="description" placeholder="Description">
+                    </div>
+                    <div class="mb-3">
+                        <label for="findeks" class="form-label">Findeks</label>
+                        <input type="number" class="form-control" id="findeks" formControlName="findeks" placeholder="Findeks">
+                    </div>
                 </form>
             </div>
             <div class="card-footer">

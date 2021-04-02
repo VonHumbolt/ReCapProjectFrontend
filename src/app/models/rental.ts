@@ -1,5 +1,5 @@
 export class Rental{
-    rentalId : number
+    id : number
     brandName : string
     customerName : string
     rentDate: Date

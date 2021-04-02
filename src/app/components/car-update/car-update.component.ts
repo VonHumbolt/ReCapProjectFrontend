@@ -40,15 +40,13 @@ export class CarUpdateComponent implements OnInit {
 
   update() {
     if(this.carUpdatedForm.valid){
-      console.log(this.carUpdatedForm.value)
       let carUpdatedModel = Object.assign({}, this.carUpdatedForm.value)
       this.carService.update(carUpdatedModel).subscribe(response=>{
         this.toastrService.success("Başarıyla güncellendi")
       }, responseError => {
         if(responseError.error.ValidationError.length > 0){
           for (let i = 0; i < responseError.error.ValidationError.length; i++) {
-            this.toastrService.error(responseError.error.ValidationError[i].ErrorMessage);
-            
+            this.toastrService.error(responseError.error.ValidationError[i].ErrorMessage);            
           }
         }
       })

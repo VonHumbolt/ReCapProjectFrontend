@@ -73,7 +73,9 @@ export class CarComponent implements OnInit {
     })
   }
 
-  update() {
-    console.log("update")
+  filterCarByColorAndBrandId(colorId: number, brandId: number) {
+    this.carService.filterCarsByColorAndBrandId(colorId, brandId).subscribe(response => {
+      this.cars = response.data
+    })
   }
 }

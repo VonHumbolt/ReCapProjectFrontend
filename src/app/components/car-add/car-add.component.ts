@@ -21,10 +21,13 @@ export class CarAddComponent implements OnInit {
 
   createCarModel() {
     this.carAddForm = this.formBuilder.group({
-      brandName: ["", Validators.required],
-      colorName: ["", Validators.required],
+      brandId: ["", Validators.required],
+      colorId: ["", Validators.required],
       dailyPrice: ["", Validators.required],
-      carName: ["", Validators.required]
+      modelYear: ["", Validators.required],
+      carName: ["", Validators.required],
+      description: ["",Validators.required],
+      findeks: ["",Validators.required]
     })
   }
 
@@ -34,7 +37,8 @@ export class CarAddComponent implements OnInit {
       this.carService.add(carModel).subscribe(response => {
         this.toastrService.success(response.message)
       }, responseError => {
-        if(responseError.error.ValidationError.length > 0){
+        console.log(responseError.error)
+        if(responseError.errors.ValidationError.length > 0){
           for (let i = 0; i < responseError.error.ValidationError.length; i++) {
             this.toastrService.error(responseError.error.ValidationError[i].ErrorMessage)          
           }
@@ -43,7 +47,7 @@ export class CarAddComponent implements OnInit {
     }else {
       this.toastrService.error("Lütfen bilgileri eksiksiz doldurunuz.")
     }
-   
+  
   }
 
 }

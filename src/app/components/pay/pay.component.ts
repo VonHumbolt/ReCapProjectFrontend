@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CardInfo } from 'src/app/models/cardInfo';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { PayService } from 'src/app/services/pay.service';
 
 @Component({
@@ -11,32 +12,57 @@ import { PayService } from 'src/app/services/pay.service';
 })
 export class PayComponent implements OnInit {
 
-  cardNumber: number
-  customerName: string
-  customerLastName: string
   dataFromDetailPage : any
+  cardNumber : string
+  userCardDetailForm : FormGroup
+  cardId: number
+  userId: number
 
-  constructor(private payService: PayService, private toastrService: ToastrService ,private activatedRoute: ActivatedRoute) { }
+  constructor(private payService: PayService, private toastrService: ToastrService ,
+    private activatedRoute: ActivatedRoute, private formBuilder : FormBuilder,
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.dataFromDetailPage = this.activatedRoute.snapshot.queryParams
+    
+    this.getCardNumberFromDatabase() // ___
+    this.createUserCardDetailForm()
   }
 
-  sendRentalInfos() {
-    let cardInfo = new CardInfo()
-    cardInfo.cardNumber = this.cardNumber.toString()
-    cardInfo.rentDate = this.dataFromDetailPage.dataRent 
-    cardInfo.returnDate = this.dataFromDetailPage.dataReturn
-    cardInfo.price = 200
-   
-    if(this.cardNumber.toString().length === 12){
-      this.toastrService.success("Ödeme başarıyla yapıldı!", "Teşekkürler!")
-      this.payService.sendRentInfos(cardInfo).subscribe(response => {
+  createUserCardDetailForm() {
+    this.userCardDetailForm = this.formBuilder.group({
+      userId: [this.userId, Validators.required],
+      cardNumber: ["", Validators.required]
+    })
+  }
+
+  pay() {
+      this.payService.pay().subscribe(response => {
         console.log(response)
+        this.addCardNumber()
+        this.toastrService.success(response.message)
+      }, responseError => {
+        this.toastrService.error(responseError.error)
       })
-    }else{
-      this.toastrService.error("Lütfen bilgilerinizi eksiksiz doldurunuz.")
-    }
   }
 
+  getCardNumberFromDatabase() {
+    this.userId = parseInt(this.localStorageService.getItem("userId")!!)
+    this.payService.getCardNumber(this.userId).subscribe(response => {
+      this.cardId = response.data.id
+      console.log(response.data)
+    
+    })
+  }
+
+  addCardNumber(){
+    console.log(this.userCardDetailForm.valid)
+    console.log(this.userCardDetailForm.value)
+    
+    let userCardDetailModel = Object.assign({},this.userCardDetailForm.value)
+    this.payService.addCardNumber(userCardDetailModel).subscribe(response => {
+      console.log(response)
+    })
+    
+  }
 }

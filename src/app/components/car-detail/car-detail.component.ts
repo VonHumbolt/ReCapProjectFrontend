@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CarDetail } from 'src/app/models/carDetail';
+import { Car } from 'src/app/models/car';
 import { Rental } from 'src/app/models/rental';
-import { CarDetailService } from 'src/app/services/car-detail.service';
+import { CarService } from 'src/app/services/car.service';
+import { CustomerService } from 'src/app/services/customer.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { RentalService } from 'src/app/services/rental.service';
 
 @Component({
@@ -13,27 +15,28 @@ import { RentalService } from 'src/app/services/rental.service';
 })
 export class CarDetailComponent implements OnInit {
 
-  carDetail : CarDetail[];
+  carDetail : Car[];
   rentals: Rental[];
   path: string = "https://localhost:44304/";
   rooterLink: string;
   rentDate : Date
   returnDate : Date
+  customerFindeks: number
 
-
-  constructor(private carDetailService : CarDetailService, private activatedRoute : ActivatedRoute, 
-    private rentalService: RentalService, private toastrService: ToastrService, private router: Router) { }
+  constructor(private carService: CarService ,private activatedRoute : ActivatedRoute, 
+    private rentalService: RentalService, private toastrService: ToastrService, private router: Router,
+    private customerService: CustomerService, private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(param => {
       if(param["carId"]){
-        this.getCarImages(param["carId"])
+        this.getCarImagesByCarId(param["carId"])
       }
     })   
   }
 
-  getCarImages(carId: number){
-    this.carDetailService.getImage(carId).subscribe(response => {
+  getCarImagesByCarId(carId : number) {
+    this.carService.getCarImagesByCarId(carId).subscribe(response => {
       this.carDetail = response.data
     })
   }
@@ -41,27 +44,34 @@ export class CarDetailComponent implements OnInit {
   getRentalByCarId(carId : number){
     let rent_date = new Date(this.rentDate)
     let return_date = new Date(this.returnDate)
-
+    
+    this.getCustomerFindeks()
     this.rentalService.getRentalByCarId(carId).subscribe(response=> {
       this.rentals = response.data
-      
+
+      let rentDateFromDatabase = new Date(this.rentals[0].rentDate)
       let returnDateFromDatabase = new Date(this.rentals[0].returnDate)
-      if(rent_date.getTime() > returnDateFromDatabase.getTime()){
-        //this.rooterLink="/cars/detail/" + carId + "/pay" 
-        this.router.navigate(["/cars/detail/"+carId+"/pay"], {queryParams: {
+      
+      if(this.carDetail[0].findeks >= this.customerFindeks){
+        this.toastrService.error("Findeks puanınız bu aracı kiralamak için yeterli değil")    
+        if(rent_date.getTime() > rentDateFromDatabase.getTime() && rent_date.getTime()<returnDateFromDatabase.getTime()){
+            this.toastrService.error("Seçilen tarihler arasında araba kiralanmış durumda.", "Üzgünüz!")
+        }
+      }else{
+          this.router.navigate(["/cars/detail/"+carId+"/pay"], {queryParams: {
             dateRent: rent_date,
             dateReturn: return_date,
             carId: carId
-          }
-        })
-      }else{
-        
-        this.router.navigate(["/cars/detail/"+carId])
-        //this.rooterLink = "/cars/detail/" + carId
-        this.toastrService.error("Bu araba kiralanmış durumda.", "Üzgünüz!")
-        console.log(this.rooterLink)
-
+            }
+          })
       }
+    })
+  }
+
+  getCustomerFindeks() {
+    let userId = parseInt(this.localStorageService.getItem("userId")!!)
+    this.customerService.getCustomerByUserId(userId).subscribe(response => {
+      this.customerFindeks = response.data.findeks
     })
   }
   

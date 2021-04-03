@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MatDialogModule } from "@angular/material/dialog";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,7 +31,9 @@ import { ColorUpdateComponent } from './components/color-update/color-update.com
 import { LoginComponent } from './components/login/login.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RegisterComponent } from './components/register/register.component';
-
+import { DialogBodyComponent } from './components/dialog-body/dialog-body.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +59,8 @@ import { RegisterComponent } from './components/register/register.component';
     ColorUpdateComponent,
     LoginComponent,
     RegisterComponent,
+    DialogBodyComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +72,8 @@ import { RegisterComponent } from './components/register/register.component';
     }),
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    NgbModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true}

@@ -18,14 +18,13 @@
         <form class="d-flex">
           <button *ngIf="!isAuthenticated" routerLink="login" class="btn btn-outline-success me-2" type="submit">Login</button>
           <button *ngIf="!isAuthenticated" routerLink="register" class="btn btn-outline-success me-2" type="submit">Register</button>
-          <div *ngIf="isAuthenticated" class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <div *ngIf="isAuthenticated" ngbDropdown class="dropdown">
+            <button ngbDropdownToggle class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
               {{username}} <br> {{findeks}}
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" routerLink="/profile/{{userId}}">Düzenle</a></li>
+              <li><a class="dropdown-item" (click)="logout()" routerLink="/login">Logout</a></li>
             </ul>
           </div>
         </form>

@@ -13,6 +13,7 @@ export class NaviComponent implements OnInit {
   isAuthenticated : boolean
   username:string
   findeks: number
+  userId : number
 
   constructor(private authService: AuthService, private localStorageService: LocalStorageService,
     private customerService: CustomerService) { }
@@ -29,8 +30,9 @@ export class NaviComponent implements OnInit {
     let email = this.localStorageService.getItem("email")
     this.authService.getUserByEmail(email!!).subscribe(response => {
       this.username = response.data.firstName + " " + response.data.lastName
-      
-      this.getUserFindeksScore(response.data.id)
+      this.userId = response.data.id
+
+      this.getUserFindeksScore(this.userId)
       this.localStorageService.setItem("userId",response.data.id.toString())
     })
   }
@@ -39,5 +41,9 @@ export class NaviComponent implements OnInit {
     this.customerService.getCustomerByUserId(userId).subscribe(response => {
       this.findeks = response.data.findeks
     })
+  }
+
+  logout() {
+    this.localStorageService.clean()
   }
 }

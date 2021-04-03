@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { PayService } from 'src/app/services/pay.service';
+import  { MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
+
 
 @Component({
   selector: 'app-pay',
@@ -12,34 +14,43 @@ import { PayService } from 'src/app/services/pay.service';
 })
 export class PayComponent implements OnInit {
 
-  dataFromDetailPage : any
-  cardNumber : string
   userCardDetailForm : FormGroup
-  cardId: number
   userId: number
+  isSaved: boolean = false
 
   constructor(private payService: PayService, private toastrService: ToastrService ,
-    private activatedRoute: ActivatedRoute, private formBuilder : FormBuilder,
-    private localStorageService: LocalStorageService) { }
+    private formBuilder : FormBuilder, private localStorageService: LocalStorageService, 
+    private matDialog : MatDialog) { }
 
   ngOnInit(): void {
-    this.dataFromDetailPage = this.activatedRoute.snapshot.queryParams
-    
-    this.getCardNumberFromDatabase() // ___
+
+    this.getCardNumberFromDatabase()
     this.createUserCardDetailForm()
+    
+  }
+
+  openDialog() {
+    let dialogConfig = new MatDialogConfig()
+    return this.matDialog.open(DialogBodyComponent,dialogConfig)
   }
 
   createUserCardDetailForm() {
     this.userCardDetailForm = this.formBuilder.group({
-      userId: [this.userId, Validators.required],
+      id: [this.userId, Validators.required],
       cardNumber: ["", Validators.required]
     })
   }
 
   pay() {
       this.payService.pay().subscribe(response => {
-        console.log(response)
-        this.addCardNumber()
+        
+        if(!this.isSaved){
+          this.openDialog().afterClosed().subscribe(response => {
+            if(response) {
+              this.addCardNumber()
+            }
+          })
+        }
         this.toastrService.success(response.message)
       }, responseError => {
         this.toastrService.error(responseError.error)
@@ -49,20 +60,20 @@ export class PayComponent implements OnInit {
   getCardNumberFromDatabase() {
     this.userId = parseInt(this.localStorageService.getItem("userId")!!)
     this.payService.getCardNumber(this.userId).subscribe(response => {
-      this.cardId = response.data.id
-      console.log(response.data)
-    
+      if(response.data.cardNumber != null) {
+        this.userCardDetailForm.controls["cardNumber"].setValue(response.data.cardNumber)
+        this.isSaved = true
+      }
     })
   }
 
   addCardNumber(){
-    console.log(this.userCardDetailForm.valid)
-    console.log(this.userCardDetailForm.value)
-    
-    let userCardDetailModel = Object.assign({},this.userCardDetailForm.value)
-    this.payService.addCardNumber(userCardDetailModel).subscribe(response => {
-      console.log(response)
-    })
-    
+
+    if(this.userCardDetailForm.valid){
+      let carDetailModel = Object.assign({}, this.userCardDetailForm.value)
+      this.payService.addCardNumber(carDetailModel).subscribe(response => {
+        this.toastrService.success(response.message)
+      })
+    }
   }
 }

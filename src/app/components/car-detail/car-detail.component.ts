@@ -58,12 +58,7 @@ export class CarDetailComponent implements OnInit {
             this.toastrService.error("Seçilen tarihler arasında araba kiralanmış durumda.", "Üzgünüz!")
         }
       }else{
-          this.router.navigate(["/cars/detail/"+carId+"/pay"], {queryParams: {
-            dateRent: rent_date,
-            dateReturn: return_date,
-            carId: carId
-            }
-          })
+          this.router.navigate(["/cars/detail/"+carId+"/pay"])
       }
     })
   }

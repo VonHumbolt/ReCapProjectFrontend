@@ -1,4 +1,4 @@
-<div class="mb-3">
+<div class="mb-3 mt-3">
     <form [formGroup]="userCardDetailForm">
         <fieldset>
             <legend>Ödeme İşlemleri</legend>
@@ -10,9 +10,9 @@
             <input type="text" class="form-control" id="lastName" placeholder="Soyisim">
 
             <label for="cardNumber" class="form-label">Kredi Kartı Numarası:</label>
-            <input type="number" class="form-control" id="cardNumber" formControlName="cardNumber" placeholder="Kredi Kartı Numarası">
+            <input type="text" class="form-control" id="cardNumber" formControlName="cardNumber" placeholder="Kredi Kartı Numarası">
         </fieldset>
     </form>
     <button type="button" class="btn btn-primary mt-3" (click)="pay()">Ödeme Yap</button>
 </div>
-  
+

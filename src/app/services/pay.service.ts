@@ -25,7 +25,7 @@ export class PayService {
   }
 
   addCardNumber(userCardDetail : UserCardDetail) : Observable<ResponseModel>{
-    let url = this.apiUrl + "/rentals/addCardNumber?cardNumber"
-    return this.httpClient.post<ResponseModel>(url,userCardDetail);
+    let url = this.apiUrl + "/rentals/updateCardNumber";
+    return this.httpClient.post<ResponseModel>(url, userCardDetail)
   }
 }

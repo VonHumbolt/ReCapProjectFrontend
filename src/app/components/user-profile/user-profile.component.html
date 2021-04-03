@@ -1,0 +1,26 @@
+<div class="content mt-3">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="title">Profili Düzenle</h2>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="profileForm">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">İsim</label>
+                    <input type="text" formControlName="firstName" class="form-control" id="firstName" placeholder="İsim">
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Soyisim</label>
+                    <input type="text" formControlName="lastName" class="form-control" id="lastName" placeholder="Soyisim">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-Posta</label>
+                    <input type="email" formControlName="email" class="form-control" id="email" placeholder="E-Posta">
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-fill btn-warning" (click)="updateUser()">Güncelle</button>
+        </div>
+    </div>
+</div>

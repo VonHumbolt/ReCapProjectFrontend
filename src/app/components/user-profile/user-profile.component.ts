@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { UserProfileService } from 'src/app/services/user-profile.service';
 
 @Component({
@@ -13,7 +15,8 @@ export class UserProfileComponent implements OnInit {
   profileForm : FormGroup
 
   constructor(private formBuilder: FormBuilder, private userService: UserProfileService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute, private toastrService: ToastrService,
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(param => {
@@ -28,17 +31,21 @@ export class UserProfileComponent implements OnInit {
       id: [userId, Validators.required],
       firstName: ["",Validators.required],
       lastName: ["",Validators.required],
-      email: ["",Validators.required]
+      email: ["",Validators.required],
+      password: ["",Validators.required]
     })
   }
 
   updateUser(){
-    console.log(this.profileForm.valid)
-    console.log(this.profileForm.value)
     if(this.profileForm.valid) {
       let userProfileModel = Object.assign({},this.profileForm.value)
       this.userService.updateUser(userProfileModel).subscribe(response => {
-        console.log(response)
+        this.toastrService.success(response.message)
+
+        this.localStorageService.removeItem("email")
+        this.localStorageService.setItem("email", this.profileForm.controls["email"].value)
+      }, responseError => {
+        console.log(responseError)
       })
     }
   }

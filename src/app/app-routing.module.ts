@@ -35,7 +35,7 @@ const routes: Routes = [
   {path:"colors/update/:colorId", component:ColorUpdateComponent, canActivate:[LoginGuard]},
   {path:"login", component:LoginComponent},
   {path:"register", component:RegisterComponent},
-  {path:"profile/:userId", component:UserProfileComponent},
+  {path:"profile/:userId", component:UserProfileComponent, canActivate:[LoginGuard]},
   
 ];
 

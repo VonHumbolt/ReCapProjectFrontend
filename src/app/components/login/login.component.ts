@@ -13,7 +13,6 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 export class LoginComponent implements OnInit {
 
   loginForm : FormGroup
-  email: string
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
     private toastrService: ToastrService, private localStorageService: LocalStorageService,
@@ -39,12 +38,11 @@ export class LoginComponent implements OnInit {
         this.toastrService.info("Token oluşturuldu")
 
         this.localStorageService.setItem("token", response.data.token)
-        this.localStorageService.setItem("email", this.email)
+        this.localStorageService.setItem("email", this.loginForm.controls["email"].value)
         
         this.router.navigate([""])
       }, responseError => {
-        
-        this.toastrService.error(responseError.error)
+        this.toastrService.error(responseError.error.message)
       })
     }
   }

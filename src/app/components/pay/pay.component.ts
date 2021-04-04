@@ -5,6 +5,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { PayService } from 'src/app/services/pay.service';
 import  { MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
+import { UserCardDetail } from 'src/app/models/userCardDetail';
 
 
 @Component({
@@ -42,19 +43,29 @@ export class PayComponent implements OnInit {
   }
 
   pay() {
-      this.payService.pay().subscribe(response => {
+    if(this.userCardDetailForm.valid){
+      let carDetailModel = Object.assign({}, this.userCardDetailForm.value)
+     
+      this.payService.pay(carDetailModel).subscribe(response => {
         
         if(!this.isSaved){
           this.openDialog().afterClosed().subscribe(response => {
             if(response) {
-              this.addCardNumber()
+              this.addCardNumber(carDetailModel)
             }
           })
         }
         this.toastrService.success(response.message)
+        
       }, responseError => {
-        this.toastrService.error(responseError.error)
+        if(responseError.error.ValidationError.length > 0) {
+          for (let i = 0; i < responseError.error.ValidationError.length; i++) {
+            this.toastrService.error(responseError.error.ValidationError[i].ErrorMessage)
+          }
+        }
+        
       })
+    }
   }
 
   getCardNumberFromDatabase() {
@@ -67,13 +78,9 @@ export class PayComponent implements OnInit {
     })
   }
 
-  addCardNumber(){
-
-    if(this.userCardDetailForm.valid){
-      let carDetailModel = Object.assign({}, this.userCardDetailForm.value)
+  addCardNumber(carDetailModel : UserCardDetail){  
       this.payService.addCardNumber(carDetailModel).subscribe(response => {
         this.toastrService.success(response.message)
       })
-    }
   }
 }

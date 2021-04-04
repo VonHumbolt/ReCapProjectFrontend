@@ -22,7 +22,6 @@ export class NaviComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated()
     if(this.isAuthenticated){
       this.getUserByEmail()
-      //this.localStorageService.removeItem("email")
     }
   }
 

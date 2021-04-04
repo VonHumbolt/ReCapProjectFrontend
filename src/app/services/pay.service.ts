@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../models/responseModel';
@@ -14,9 +14,9 @@ export class PayService {
 
   constructor(private httpClient: HttpClient) { }
 
-  pay(){
+  pay(userCardDetail : UserCardDetail) : Observable<ResponseModel>{
     let url = this.apiUrl + "/rentals/pay";
-    return this.httpClient.get<ResponseModel>(url)
+    return this.httpClient.post<ResponseModel>(url, userCardDetail)
   }
 
   getCardNumber(userId : number) : Observable<SingleResponseModel<UserCardDetail>> {

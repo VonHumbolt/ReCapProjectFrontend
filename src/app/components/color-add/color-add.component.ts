@@ -25,7 +25,6 @@ export class ColorAddComponent implements OnInit {
   }
 
   add(){
-    // FormControlName koymak çok önemli html kısmına !
     if(this.colorAddForm.valid){
       let colorModel = Object.assign({}, this.colorAddForm.value)
       this.colorService.add(colorModel).subscribe(response => {

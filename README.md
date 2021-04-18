@@ -1,6 +1,7 @@
 # Carrental
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.3.
+and it consists of frontend codes of [RecapProject](https://github.com/VonHumbolt/ReCapProject). 
 
 ## Development server
 
@@ -24,4 +25,4 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page
